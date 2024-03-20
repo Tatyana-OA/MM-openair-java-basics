@@ -1,8 +1,10 @@
 package com.mentormate.openair.repository;
 
 import com.mentormate.openair.controller.NotFoundException;
+import com.mentormate.openair.controller.NotSavedException;
 import com.mentormate.openair.model.Band;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,17 @@ public class BandsService {
     }
 
     public void addBand(Band band) {
-        bandsRepository.save(band);
+        band.setDay(Band.convertFestivalDate(band.getDay()));
+        try {
+            bandsRepository.save(band);
+        }catch(DataIntegrityViolationException ex) {
+            throw new NotSavedException(String.valueOf(ex));
+        }
+
+    }
+
+    public void deleteBandById(int id) {
+        findBandById(id);
+        bandsRepository.deleteById(id);
     }
 }

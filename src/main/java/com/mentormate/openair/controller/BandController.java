@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/bands")
@@ -42,8 +43,18 @@ public class BandController {
           bandsService.addBand(band);
           return ResponseEntity.ok(new ApiResponse<>(HttpStatus.CREATED.value(), "Band added", null));
       } catch(Exception ex) {
-          return ResponseEntity.ok(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), ex.getMessage(), null));
+          return ResponseEntity.ok(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null));
       }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteBand(@RequestParam int id) {
+        try {
+            bandsService.deleteBandById(id);
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "Band deleted", null));
+        } catch (Exception ex) {
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), ex.getMessage(), null));
+        }
     }
 
 }

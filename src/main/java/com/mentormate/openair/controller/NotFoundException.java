@@ -7,4 +7,8 @@ public class NotFoundException extends RuntimeException{
     public NotFoundException(int bandId) {
         super("No results for band with id: " + bandId);
     }
+
+    public NotFoundException(String message) {
+        super(message);
+    }
 }
