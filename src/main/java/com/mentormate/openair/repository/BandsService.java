@@ -45,7 +45,7 @@ public class BandsService {
         try {
             bandsRepository.save(band);
         }catch(DataIntegrityViolationException ex) {
-            throw new NotSavedException(String.valueOf(ex));
+            throw new NotSavedException();
         }
 
     }
