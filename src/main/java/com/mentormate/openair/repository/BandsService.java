@@ -50,6 +50,12 @@ public class BandsService {
 
     }
 
+    public void updateBand(int id, Band band) {
+        findBandById(id);
+        band.setId(id);
+        bandsRepository.save(band);
+    }
+
     public void deleteBandById(int id) {
         findBandById(id);
         bandsRepository.deleteById(id);

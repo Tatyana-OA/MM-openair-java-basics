@@ -46,6 +46,16 @@ public class BandController {
       }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Band>> updateBand(@RequestParam int id, @RequestBody Band band) {
+        try {
+            bandsService.deleteBandById(id);
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.CREATED.value(), "Band updated", band));
+        } catch (Exception ex) {
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), ex.getMessage(), null));
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteBand(@RequestParam int id) {
         try {
